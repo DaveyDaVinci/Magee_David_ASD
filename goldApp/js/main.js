@@ -21,6 +21,7 @@ var clear = function () {
 		location.reload();
 	return false;
 	}
+};
 
 $('#addAMate').on('pageinit', function () {
 
