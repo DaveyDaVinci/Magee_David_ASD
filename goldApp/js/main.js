@@ -70,7 +70,7 @@ $('#addAMate').on('pageinit', function () {
 
 	// Button event listeners --- display, clear, submit, and reset
 	//Clear button event listener
-	$('#clearData').on('click',function () {
+	$('#reset').on('click',function () {
 		clear();
 	});
 	// Submit button event listener
