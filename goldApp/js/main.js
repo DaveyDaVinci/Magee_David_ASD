@@ -6,8 +6,7 @@ MiU 0612
 Project 3
 
 */
-/*
-*/
+
 
 
 var clear = function () {
