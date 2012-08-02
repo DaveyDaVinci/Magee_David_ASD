@@ -41,6 +41,7 @@ $('#addAMate').on('pageinit', function(){
 		
 	});
 	
+	/*
 	var saveData = function (key) {
 		var id;
 			// if there is no key --- this means this is a new item and needs a new key
@@ -68,8 +69,8 @@ $('#addAMate').on('pageinit', function(){
 			// reload page after confirming that the profile was saved
 			location.reload();
 		}
-	};
-
+	}
+*/
 });
 
 
