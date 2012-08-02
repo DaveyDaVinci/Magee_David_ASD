@@ -6,7 +6,7 @@ MiU 0612
 Project 2
 */
 //test
-window.addEventListener("DOMContentLoaded", function(){
+$(document).ready(function(){
 	
 	//This is the getelementbyid function.  use the ce symbol to run the function
 	function ce(x){
