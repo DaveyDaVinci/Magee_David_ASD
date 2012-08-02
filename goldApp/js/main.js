@@ -129,7 +129,7 @@ function toggleControls(n){
 		var imageLi = $('li');
 		$('sublist').append('imageLi');
 		var imageTag = $('img');
-		var setSource = $('#imageTag').attr("src", "img/" + planName + ".png");
+		var setSour$ = $('#imageTag').attr("src", "img/" + planName + ".png");
 		$('imageLi').append('imageTag');
 	
 	};
@@ -147,6 +147,93 @@ function toggleControls(n){
 		}
 	
 	}
+	
+	function createItemLinks(key, linksLi){ //this key is called from the function up above
+		var editLink = $('a');
+		editLink.href = "#";
+		editLink.key = key;
+		var editText = "Edit Information";
+		$('#editLink').on("click", editItem);
+		editLink.innerHTML = editText;
+		$('linksLi').append('editLink');
+		
+		//break line to separate links
+		var breakTag = $('br');
+		$('linksLi').append('breakTag');
+		
+		//this makes a delete item link
+		var deleteLink = $('a');
+		deleteLink.href = "#";
+		deleteLink.key = key;
+		var deleteText = "Delete Information";
+		$('deleteLink').on("click", deleteItem);
+		deleteLink.innerHTML = deleteText;
+		$('linksLi').append('deleteLink');
+	}
+	
+	function editItem(){
+		//grabs data from local storage
+		var value = localStorage.getItem(this.key);
+		var item = JSON.parse(value);
+		
+		//Shows form
+		toggleControls("off");
+		
+		//populate form fields with current localStorage values
+		
+	
+		$('homeplanets').val('item.planet[1]');
+		$('theskills').val('item.skill[1]');
+		$('name').val('item.name[1]');
+		$('born').val('item.born[1]');
+		$('morality').val('item.morality[1]');
+		$('character').val('item.character[1]');
+		$('bio').val('item.bio[1]');
+		var radios = document.forms[0].gender;
+			for (var i=0; i<radios.length; i++){
+				if(radios[i].value == "Male" && item.gender[1] == "Male"){
+					$('#radios[i]').attr("checked", "checked");
+				} else if (radios[i].value == "Female" && item.gender[1] == "Female"){
+					$('#radios[i]').attr("checked", "checked");
+				} else if (radios[i].value == "Other" && item.gender[1] == "Other"){
+					$('#radios[i]').attr("checked", "checked");
+				} else if (radios[i].value == "None" && item.gender[1] == "None"){
+					$('#radios[i]').attr("checked", "checked");
+				}
+		
+		//Removes the initial listener from the save contact button so it won't make a new group
+		saveLink.removeEventListener("click", saveData);
+		//Then we want to change the submit button value to edit button
+		$('savedata').val("Edit Profile");
+		var editSubmit = $('savedata');
+		// Saves the key, value pair established in the function as a property of the edit submit event
+		// so we can use that value when we save the data we edited. 
+		$('editSubmit').on("click", validate);
+		editSubmit.key = this.key;
+		
+			}
+		/* Checks for checkbox
+		if(obj.favorite[1] == "Yes") {
+			$('fav').setAttribute("checked", checked");
+		}
+		*/
+		
+		}
+		
+		function deleteItem(){
+		var ask = confirm("Are you sure you want to delete this profile?");
+		if(ask){
+			localStorage.removeItem(this.key);
+			alert("Profile has been purged.");
+			window.location.reload();
+		} else {
+			alert("Profile was spared from deletion.")
+		}
+	}
+	
+	
+		
+		
 
 });
 
