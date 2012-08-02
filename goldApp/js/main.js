@@ -23,6 +23,28 @@ var clear = function () {
 	}
 };
 
+$(document).bind('pageinit', function(){
+
+	var mateData = $('#addMateForm');
+
+	mateData.validate({
+		invalidHandler: function(form, validator){},
+		submitHandler: function(){
+			
+			var data = mateData.serializeArray();
+			parseMateData(data);
+			localStorage.setItem('formdata', data);
+		
+			
+		}
+
+		
+	});
+
+});
+
+
+/*
 $('#addAMate').on('pageinit', function () {
 
 	//Grabs my gender radio button value
@@ -37,7 +59,8 @@ $('#addAMate').on('pageinit', function () {
 		//jQuery Validation
 		$('#addMateForm').validate({
 			invalidHandler: function (form, validator) {},
-			submitHandler: function () {
+			submitHandler: function (data) {
+			console.log(data);
 			$('#addMateForm').serializeArray();
 			}
 		});
@@ -85,7 +108,8 @@ $('#addAMate').on('pageinit', function () {
 		//reload page
 		location.reload();
 	});
-});	
+});
+*/	
 
 
 
