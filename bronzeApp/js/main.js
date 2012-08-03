@@ -6,46 +6,54 @@ MiU 0612
 Project 2
 */
 //test
-$(document).ready(function(){
+//$(document).ready(function(){
 	
-	//This is the getelementbyid function.  use the ce symbol to run the function
-	function ce(x){
-		var theElement = document.getElementById(x);
-		return theElement;
-	};
+	//This is the getelementbyid function.  use the $ symbol to run the function
+	$('#addAMate').on('pageinit', function(){
+	var mateData = $('#addMateForm');
+
+	mateData.validate({
+		invalidHandler: function(form, validator){},
+		submitHandler: function(){
+			
+			var data = mateData.serializeArray();
+			saveData();
+		}
+	});
+	
 	
 	//Adds options for planets
 	function listPlanets (){
-		var formTag = document.getElementsByTagName("form"), //This is an array
-			selectLi = ce('planets'),
-			makeHomePlanet = document.createElement('select');
-			makeHomePlanet.setAttribute("id", "homeplanets");
+		var formTag = $("form"), //This is an array
+			selectLi = $('#planets'),
+			makeHomePlanet = $('<select>');
+			makeHomePlanet.attr("id", "homeplanets");
 		for(i=0, j=homePlanets.length; i<j; i++){
-			var createOption = document.createElement('option');
+			var createOption = $('option');
 			var optText = homePlanets[i]; 
-			createOption.setAttribute("value", optText);
-			createOption.innerHTML = optText;
-			makeHomePlanet.appendChild(createOption);
+			createOption.attr("value", optText);
+			createOption.text(optText);
+			makeHomePlanet.append(createOption);
 		}
-		selectLi.appendChild(makeHomePlanet);
+		selectLi.append(makeHomePlanet);
 	};
 	
 	
 	//Adds options for skills
 	
 	function listSkills (){
-		var formTag = document.getElementsByTagName("form"), //This is an array
-			selectLi = ce('allskills'),
-			makeSkills = document.createElement('select');
-			makeSkills.setAttribute("id", "theskills");
+		var formTag = $("form"), //This is an array
+			selectLi = $('#allskills'),
+			makeSkills = $('select');
+			makeSkills.attr("id", "theskills");
 		for(i=0, j=skillOptions.length; i<j; i++){
-			var createOption = document.createElement('option');
+			var createOption = $('option');
 			var optText = skillOptions[i]; 
-			createOption.setAttribute("value", optText);
-			createOption.innerHTML = optText;
-			makeSkills.appendChild(createOption);
+			createOption.attr("value", optText);
+			createOption.text(optText);
+			makeSkills.append(createOption);
 		}
-		selectLi.appendChild(makeSkills);
+		selectLi.append(makeSkills);
 	};
 	
 
@@ -60,31 +68,26 @@ $(document).ready(function(){
 	//Skills Array
 	var skillOptions = ["~~Fighting Skills~~", "Swordsman", "Smasher", "Boxer", 
 	"~~Shooting Skills~~", "Gunner", "Sniper", "Tank", "~~Thieving Skills~~", "Thief", 
-	"Charmer", "Assassin", "~~Sorcery Skills~~", "Mage", "Wizard", "Shaman", 
+	"Charmer", "Assassin", "~~Sor$ry Skills~~", "Mage", "Wizard", "Shaman", 
 	"~~Techster Skills~~", "Hacker", "Biotic", "Anarchist" ];
 	
 	
 	//variable for errors shortcut below
-	var  errMsg = ce('errors');
+	var  errMsg = $('errors');
 	//call to listskills function
 	listSkills();	
 	
 
 	
 	// find value of the gender button
-	function getGender(){
-		var selected = document.forms[0].gender;
-		for(var i=0; i<selected.length; i++){
-			if(selected[i].checked){
-				genderValue = selected[i].value;
-			}
-		}
-	};
+	var getGender = function (){
+				return $('input:radio[name=gender]:checked').val();
+		};
 	
 	/* This is an example of if a check boxed was checked.  Note the if and else.
 	function getGenderValue(){
-		if(ce('checkboxIdHere').checked){
-			valueInStoredObject = ce('checkBoxIdHere').value;
+		if($('checkboxIdHere').checked){
+			valueInStoredObject = $('checkBoxIdHere').value;
 		}else{
 			valueInStoredObject = "No"
 		};
@@ -100,17 +103,17 @@ $(document).ready(function(){
 	function toggleControls(n){
 			switch(n){
 				case "on":
-					ce('profileForm').style.display = "none"; //NEED PROPER TAG
-					ce('cleardata').style.display = "inline"; //NEED PROPER TAG
-					ce('displaydata').style.display = "none";
-					ce('newdata').style.display = "inline";
+					$('#profileForm').hide(); //NEED PROPER TAG
+					$('#cleardata').show(); //NEED PROPER TAG
+					$('#displaydata').hide();
+					$('#newdata').show();
 					break; 
 				case "off":
-					ce('profileForm').style.display = "block";
-					ce('cleardata').style.display = "inline"; 
-					ce('displaydata').style.display = "inline";
-					ce('newdata').style.display = "none";
-					ce('info').style.display = "none";
+					$('#profileForm').show();
+					$('#cleardata').show(); 
+					$('#displaydata').show();
+					$('#newdata').hide();
+					$('#info').hide();
 					break;
 				default:
 					return false;
@@ -130,13 +133,13 @@ $(document).ready(function(){
 		//Object properties contain array with the form label and input values.
 		getGender();
 		var item				= {};
-		item.planet				= ["Home Planet: ", ce('homeplanets').value];
-		item.skill				= ["Skill: ", ce('theskills').value];
-		item.name				= ["Name: ", ce('name').value];
-		item.born				= ["Born: ", ce('born').value];
-		item.morality			= ["Morality: ", ce('morality').value];
-		item.character			= ["Character: ", ce('character').value];
-		item.bio				= ["Bio: ", ce('bio').value];
+		item.planet				= ["Home Planet: ", $('#homeplanets').val()];
+		item.skill				= ["Skill: ", $('theskills').val()];
+		item.name				= ["Name: ", $('name').val()];
+		item.born				= ["Born: ", $('born').val()];
+		item.morality			= ["Morality: ", $('morality').val()];
+		item.character			= ["Character: ", $('character').val()];
+		item.bio				= ["Bio: ", $('bio').val()];
 		item.gender				= ["Gender: ", genderValue ];
 		//Save data into local storage: use Stringify to convert our object to a string.
 		localStorage.setItem(id, JSON.stringify(item));
@@ -153,28 +156,28 @@ $(document).ready(function(){
 			alert("Nothing is stored in local storage. Default profiles were constructed.");
 			constructDefaults();
 		}
-		var createDiv = document.createElement('div');
-		createDiv.setAttribute("id", "info");
-		var makeList = document.createElement('ul');
-		createDiv.appendChild(makeList);
+		var createDiv = $('<div>');
+		createDiv.attr("id", "info");
+		var makeList = $('ul');
+		createDiv.append(makeList);
 		document.body.appendChild(createDiv);
-		ce('info').style.display = "display";
+		$('#info').show();
 		for(i=0, j=localStorage.length; i<j; i++){
-			var makeli = document.createElement('li');
-			var linksLi = document.createElement('li');
-			makeList.appendChild(makeli);
+			var makeli = $('<li>');
+			var linksLi = $('<li>');
+			makeList.append(makeli);
 			var key = localStorage.key(i);
 			var value = localStorage.getItem(key);
 			var object = JSON.parse(value); //This converts string data back to object
-			var sublist = document.createElement('ul');
-			makeli.appendChild(sublist);
-			getImage(object.planet[1], sublist); 
+			var sublist = $('<ul>');
+			makeli.append(sublist);
+			//getImage(object.planet[1], sublist); 
 			for(var n in object){
-				var listItems = document.createElement('li');
-				sublist.appendChild(listItems);
+				var listItems = $('<li>');
+				sublist.append(listItems);
 				var subText = object[n][0] +" "+object[n][1];
-				listItems.innerHTML = subText;
-				sublist.appendChild(linksLi);
+				listItems.text(subText);
+				sublist.append(linksLi);
 			}
 			createItemLinks(localStorage.key(i), linksLi); //This creates the buttons for each item in the storage.
 		}
@@ -182,14 +185,16 @@ $(document).ready(function(){
 	
 	
 	//Gets the correct image for the category being displayed.
+	/*
 	function getImage(planName, sublist){
 		var imageLi = document.createElement('li');
 		sublist.appendChild(imageLi);
 		var imageTag = document.createElement('img');
-		var setSource = imageTag.setAttribute("src", "img/" + planName + ".png");
+		var setSour$ = imageTag.setAttribute("src", "img/" + planName + ".png");
 		imageLi.appendChild(imageTag);
 	
 	};
+	*/
 	
 	
 	//Autopopulate function
@@ -204,26 +209,26 @@ $(document).ready(function(){
 	}
 	//create the edit and delete links for the displayed data
 	function createItemLinks(key, linksLi){ //this key is called from the function up above
-		var editLink = document.createElement('a');
-		editLink.href = "#";
-		editLink.key = key;
+		var editLink = $('<a>');
+		editLink.attr('href', '#');
+		editLink.attr('key', key);
 		var editText = "Edit Information";
-		editLink.addEventListener("click", editItem);
-		editLink.innerHTML = editText;
-		linksLi.appendChild(editLink);
+		editLink.on("click", editItem);
+		editLink.text(editText);
+		linksLi.append(editLink);
 		
 		//break line to separate links
-		var breakTag = document.createElement('br');
-		linksLi.appendChild(breakTag);
+		var breakTag = $('<br>');
+		linksLi.append(breakTag);
 		
 		//this makes a delete item link
-		var deleteLink = document.createElement('a');
-		deleteLink.href = "#";
-		deleteLink.key = key;
+		var deleteLink = $('<a>');
+		deleteLink.attr('href', '#');
+		deleteLink.attr('key', key);
 		var deleteText = "Delete Information";
-		deleteLink.addEventListener("click", deleteItem);
-		deleteLink.innerHTML = deleteText;
-		linksLi.appendChild(deleteLink);
+		deleteLink.on("click", deleteItem);
+		deleteLink.text(deleteText);
+		linksLi.append(deleteLink);
 	}
 	
 	function editItem(){
@@ -237,13 +242,13 @@ $(document).ready(function(){
 		//populate form fields with current localStorage values
 		
 	
-		ce('homeplanets').value = item.planet[1];
-		ce('theskills').value = item.skill[1];
-		ce('name').value = item.name[1];
-		ce('born').value = item.born[1];
-		ce('morality').value = item.morality[1];
-		ce('character').value = item.character[1];
-		ce('bio').value = item.bio[1];
+		$('#homeplanets').val(item.planet[1]);
+		$('#theskills').val(item.skill[1]);
+		$('#name').val(item.name[1]);
+		$('#born').val(item.born[1]);
+		$('#morality').val(item.morality[1]);
+		$('#character').val(item.character[1]);
+		$('#bio').val(item.bio[1]);
 		var radios = document.forms[0].gender;
 			for (var i=0; i<radios.length; i++){
 				if(radios[i].value == "Male" && item.gender[1] == "Male"){
@@ -257,19 +262,19 @@ $(document).ready(function(){
 				}
 		
 		//Removes the initial listener from the save contact button so it won't make a new group
-		saveLink.removeEventListener("click", saveData);
+		saveLink.off("click", saveData);
 		//Then we want to change the submit button value to edit button
-		ce('savedata').value = "Edit Profile";
-		var editSubmit = ce('savedata');
+		$('#savedata').attr('value', 'Edit Profile');
+		var editSubmit = $('#savedata');
 		// Saves the key, value pair established in the function as a property of the edit submit event
 		// so we can use that value when we save the data we edited. 
-		editSubmit.addEventListener("click", validate);
-		editSubmit.key = this.key;
+		editSubmit.on("click", saveData());
+		editSubmit.attr('key', this.key);
 		
 			}
 		/* Checks for checkbox
 		if(obj.favorite[1] == "Yes") {
-			ce('fav').setAttribute("checked", checked");
+			$('fav').setAttribute("checked", checked");
 		}
 		*/
 		
@@ -298,16 +303,17 @@ $(document).ready(function(){
 	}
 	
 	//This is a function that validates data in form fields
+	/*
 	function validate(e){
 		//define the elements we want to check
-		var getPlanet =     ce('homeplanets');
-		var getSkills =		ce('theskills');
-		var getName =     	ce('name');
-		var getBorn =		ce('born');
-		var getMorality = 	ce('morality');
-		var getCharacter = 	ce('character');
-		var getBio = 		ce('bio');
-		var getGender = 	ce(genderValue);
+		var getPlanet =     $('homeplanets');
+		var getSkills =		$('theskills');
+		var getName =     	$('name');
+		var getBorn =		$('born');
+		var getMorality = 	$('morality');
+		var getCharacter = 	$('character');
+		var getBio = 		$('bio');
+		var getGender = 	$(genderValue);
 		
 		errMsg.innerHTML = "";
 		getPlanet.style.border = "1px solid black";
@@ -325,7 +331,7 @@ $(document).ready(function(){
 			errorAry.push(planetError);
 		}
 		if( getSkills.value === "~~Fighting Skills~~" || getSkills.value === "~~Thieving Skills~~"  
-		|| getSkills.value === "~~Shooting Skills~~" || getSkills.value === "~~Sorcery Skills~~"  
+		|| getSkills.value === "~~Shooting Skills~~" || getSkills.value === "~~Sor$ry Skills~~"  
 		|| getSkills.value === "~~Techster Skills~~"){
 			var skillError = "Please choose a skill.";
 			getSkills.style.border = "1px solid red";
@@ -345,13 +351,13 @@ $(document).ready(function(){
 		}
 		
 		/* email validation which I won't use
-		var re = /^\w+([\.-]?\w+)*@\w+([\.-]?/w+)*(\.\w{2,3})+ce/;
+		var re = /^\w+([\.-]?\w+)*@\w+([\.-]?/w+)*(\.\w{2,3})+$/;
 		if (!(re.exec.getEmail.value)){
 			var emailError = "Please enter a valid email address.";
 			itemKey.style.border = "1px solid red";
 			errorAry.push(emailError);
 			*/
-		
+		/*
 		//Display errors on screen
 		if (errorAry.length >= 1){
 			for(var i=0, j=errorAry.length; i < j; i++){
@@ -368,15 +374,17 @@ $(document).ready(function(){
 			//sends the key value which came from editdata function.
 		}
 	}
-		
+	*/
+	
 	
 	//Button Presses	
-	var displayLink = ce('displaydata'); 
-	displayLink.addEventListener("click", getData);
-	var clearLink = ce('cleardata');
-	clearLink.addEventListener("click", clearData);
-	var saveLink =  ce('savedata');
-	saveLink.addEventListener("click", validate); 
+	var displayLink = $('#displaydata'); 
+	displayLink.on$("click", getData);
+	var clearLink = $('#cleardata');
+	clearLink.on("click", clearData);
+	var saveLink =  $('#savedata');
+	saveLink.on("click", validate); 
 
-});
+//});
+}); //close
 
