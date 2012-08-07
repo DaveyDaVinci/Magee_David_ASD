@@ -6,23 +6,42 @@ MiU 0612
 Project 2
 */
 //test
-//$(document).ready(function(){
-	
-	//This is the getelementbyid function.  use the $ symbol to run the function
-	$('#addAMate').on('pageinit', function(){
-	var mateData = $('#addMateForm');
+$('#home').on('pageinit', function(){
 
-	mateData.validate({
-		invalidHandler: function(form, validator){},
-		submitHandler: function(){
-			
-			var data = mateData.serializeArray();
-			saveData();
-		}
-	});
+
+});
+	//This is the getelementbyid function.  use the $ symbol to run the function
+$('#addAMate').on('pageinit', function(){
+	function saveStuff(){
+		console.log('Hi');
+		var mateData = $('#addMateForm');
+
+		mateData.validate({
+			invalidHandler: function(form, validator){},
+			submitHandler: function(){
+		
+				var data = mateData.serializeArray();
+				saveData();
+			}
+		});
+	};
+
+	var displayLink = $('#displaydata'); 
+	displayLink.on("click", getData);
+	var clearLink = $('#cleardata');
+	clearLink.on("click", clearData);
+	var saveLink =  $('#savedata');
+	saveLink.on("click", saveStuff); 
+
+});
+	
+	
+	
+	
 	
 	
 	//Adds options for planets
+	/*
 	function listPlanets (){
 		var formTag = $("form"), //This is an array
 			selectLi = $('#planets'),
@@ -37,10 +56,11 @@ Project 2
 		}
 		selectLi.append(makeHomePlanet);
 	};
+	*/
 	
 	
 	//Adds options for skills
-	
+	/*
 	function listSkills (){
 		var formTag = $("form"), //This is an array
 			selectLi = $('#allskills'),
@@ -55,27 +75,30 @@ Project 2
 		}
 		selectLi.append(makeSkills);
 	};
+	*/
 	
 
 //listed below are the variables and calls for above functions
 	//Planets Array
+	/*
 	var homePlanets = ["~~Allied Planets~~", "Earth", "Mars", "Pluto", "Vegas", 
 	"~~Relkin Group~~", "Turos", "Heisinkr", "Velarius"];
-	
+	*/
 	//calls to functions
-	listPlanets();
+	//listPlanets();
 	
 	//Skills Array
+	/*
 	var skillOptions = ["~~Fighting Skills~~", "Swordsman", "Smasher", "Boxer", 
 	"~~Shooting Skills~~", "Gunner", "Sniper", "Tank", "~~Thieving Skills~~", "Thief", 
 	"Charmer", "Assassin", "~~Sor$ry Skills~~", "Mage", "Wizard", "Shaman", 
 	"~~Techster Skills~~", "Hacker", "Biotic", "Anarchist" ];
-	
+	*/
 	
 	//variable for errors shortcut below
-	var  errMsg = $('errors');
+	//var  errMsg = $('errors');
 	//call to listskills function
-	listSkills();	
+	//listSkills();	
 	
 
 	
@@ -98,7 +121,7 @@ Project 2
 	*/ 
 	
 	//Had to return the value as a variable to be used outside function
-	var genderValue;
+	//var genderValue;
 	
 	function toggleControls(n){
 			switch(n){
@@ -133,13 +156,13 @@ Project 2
 		//Object properties contain array with the form label and input values.
 		getGender();
 		var item				= {};
-		item.planet				= ["Home Planet: ", $('#homeplanets').val()];
-		item.skill				= ["Skill: ", $('theskills').val()];
-		item.name				= ["Name: ", $('name').val()];
-		item.born				= ["Born: ", $('born').val()];
-		item.morality			= ["Morality: ", $('morality').val()];
-		item.character			= ["Character: ", $('character').val()];
-		item.bio				= ["Bio: ", $('bio').val()];
+		item.planet				= ["Home Planet: ", $('#homePlanet').val()];
+		item.skill				= ["Skill: ", $('#skills').val()];
+		item.name				= ["Name: ", $('#name').val()];
+		item.born				= ["Born: ", $('#born').val()];
+		item.morality			= ["Morality: ", $('#morality').val()];
+		item.character			= ["Character: ", $('#character').val()];
+		item.bio				= ["Bio: ", $('#bio').val()];
 		item.gender				= ["Gender: ", genderValue ];
 		//Save data into local storage: use Stringify to convert our object to a string.
 		localStorage.setItem(id, JSON.stringify(item));
@@ -349,7 +372,7 @@ Project 2
 			getBio.style.border = "1px solid red";
 			errorAry.push(bioError);
 		}
-		
+		*/
 		/* email validation which I won't use
 		var re = /^\w+([\.-]?\w+)*@\w+([\.-]?/w+)*(\.\w{2,3})+$/;
 		if (!(re.exec.getEmail.value)){
@@ -378,13 +401,8 @@ Project 2
 	
 	
 	//Button Presses	
-	var displayLink = $('#displaydata'); 
-	displayLink.on$("click", getData);
-	var clearLink = $('#cleardata');
-	clearLink.on("click", clearData);
-	var saveLink =  $('#savedata');
-	saveLink.on("click", validate); 
+	
 
-//});
-}); //close
+	//});
+
 
