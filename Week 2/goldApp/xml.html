@@ -10,7 +10,7 @@ $('#loadxml').on('click', function(){
 					var id = $(this).attr('id');
 					var name = $(this).find('name').text();
 					var bio = $(this).find('bio').text();
-					$('<div class="profViews" id="link_'+id+'"></div>')
+					$('<div class="profViews" id="profs'+id+'"></div>')
 						.html('<div>'+name + bio+ '</div>')
 						.appendTo('#xmldiv');
 				});
