@@ -37,6 +37,7 @@
 		<div data-role="content">
 			<p><a href="#addAMate" data-role="button" data-icon="arrow-r" data-iconpos="right" data-ajax="false" data-theme="a">Add A Mate</a></p>
 		</div>
+	<!--
 		<div data-role="content">
 			<ul data-role="listview" data-inset="true" data-filter="true" data-theme="a">
 				<li data-role="list-divider">Browse</li>
@@ -67,8 +68,32 @@
 					<h3>View Most Recent Logins</h3>
 				</a></li>
 			</ul>
+			
+			
 		</div>
-
+		-->
+	<div data-role="content">
+		
+		
+		<div id="getdata" data-role="fieldcontain">
+			<div id="get-data-buttons">
+				<div class="ui-grid-b">
+					<p style="text-align: center;"><h2>Load Test Data</h2></p>
+					<div class="ui-block-b">
+						<a href="#" data-role="button" id="jsondata">JSON</a>
+					</div>
+					<div class="ui-block-c">
+						<a href="#" data-role="button" id="loadxml">XML</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ul id="profiles" data-role="listview" data-theme="d"></ul>
+		<div id="xmldiv">
+		</div>
+	</div>
+		
+		
 
 		<div data-role="footer" data-theme="a" data-position="fixed" data-id="freeze">
 			<div data-role="navbar">
@@ -323,5 +348,37 @@
 	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
 	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
 	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
+	<script type="text/javascript">
+		
+		
+		$('#jsondata').on('click', function(){
+			$('#profiles').empty();
+			$('<h3>').html('JSON Data Loaded').appendTo('#profiles');
+			$.ajax({
+				url: 'js/json.json',
+				type: 'GET',
+				dataType: 'json',
+				success: function(answer){
+					for (var i=0, j=answer.jsonProfs.length; i<j; i++){
+						var jdata = answer.jsonProfs[i];
+						$(''+
+							'<li>'+ 
+								jdata.planet +'<br />'+
+								jdata.name +'<br/><br />'+
+							'</li>'
+						).appendTo('#profiles');
+						console.log(answer);
+					}
+				}
+			});
+			return false;
+		});
+		
+		
+	
+	
+	
+
+	</script>
 </body>
 </html>

@@ -8,6 +8,53 @@ Project 2
 //test
 $('#home').on('pageinit', function(){
 
+	
+	$('#loadxml').on('click', function(){
+		$('#xmldiv').empty();
+		$('#profiles').empty();
+		$('<h3>').html('XML Loaded').appendTo('#xmldiv');
+			$.ajax({
+			url: "xhr/xmldata.xml",
+			type: "GET",
+			dataType: "xml",
+			success: function(xml) {
+				$(xml).find('profile').each(function(){
+					var id = $(this).attr('id');
+					var name = $(this).find('name').text();
+					var bio = $(this).find('bio').text();
+					$('<div class="profViews" id="profile_'+id+'"></div>')
+						.html('<div>'+name + bio + '</div>')
+						.appendTo('#xmldiv');
+				});
+			}
+		});
+		return false;
+	});
+
+	
+	$('#jsondata').on('click', function(){
+			$('#xmldiv').empty();
+			$('#profiles').empty();
+			$('<h3>').html('JSON Data Loaded').appendTo('#profiles');
+			$.ajax({
+				url: 'js/json.json',
+				type: 'GET',
+				dataType: 'json',
+				success: function(answer){
+					for (var i=0, j=answer.item.length; i<j; i++){
+						var jdata = answer.item[i];
+						$(''+
+							'<li>'+ 
+								jdata.planet +'<br />'+
+								jdata.name +'<br /><br />'+
+							'</li>'
+						).appendTo('#profiles');
+						console.log(answer);
+					}
+				}
+			});
+			return false;
+	});
 
 });
 	//This is the getelementbyid function.  use the $ symbol to run the function

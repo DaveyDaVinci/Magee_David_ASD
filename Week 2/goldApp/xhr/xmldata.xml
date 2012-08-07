@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<profileData>
+	<profile id="profile1">
+		<planet>Earth</planet>
+		<skill>Gunner</skill>
+		<name>Sandra Rawr</name>
+		<born>1989-05-28</born>
+		<morality>8</morality>
+		<character>4</character>
+		<bio>Let's go to the mall</bio>
+		<gender>Female</gender>
+	</profile>
+	<profile id="profile2">
+		<planet>Heisinkr</planet>
+		<skill>Hacker</skill>
+		<name>Borgk</name>
+		<born>1598-04-12</born>
+		<morality>2</morality>
+		<character>7</character>
+		<bio>I don't have time for this</bio>
+		<gender>Other</gender>
+	</profile>
+	<profile id="profile3">
+		<planet>Mars</planet>
+		<skill>Sniper</skill>
+		<name>Herp Derpson</name>
+		<born>1978-07-14</born>
+		<morality>9</morality>
+		<character>4</character>
+		<bio>It's hard being the best guy on the team</bio>
+		<gender>Male</gender>
+	</profile>
+	<profile id="profile4">
+		<planet>Vegas</planet>
+		<skill>Biotic</skill>
+		<name>Ann Nonniemous</name>
+		<born>1472-04-18</born>
+		<morality>5</morality>
+		<character>8</character>
+		<bio>Raaaaawr</bio>
+		<gender>None</gender>
+	</profile>
+	<profile id="profile5">
+		<planet>Pluto</planet>
+		<skill>Wizard</skill>
+		<name>Mercurious</name>
+		<born>1945-11-17</born>
+		<morality>6</morality>
+		<character>6</character>
+		<bio>Nooooooo!</bio>
+		<gender>Male</gender>
+	</profile>
+</profileData>
