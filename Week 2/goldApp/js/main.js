@@ -8,11 +8,11 @@ Project 2
 //test
 $('#home').on('pageinit', function(){
 
-	
+	//Load XML data
 	$('#loadxml').on('click', function(){
 		$('#xmldiv').empty();
 		$('#profiles').empty();
-		$('<h3>').html('XML Loaded').appendTo('#xmldiv');
+		$('<h3>').html('XML Data Loaded').appendTo('#xmldiv');
 			$.ajax({
 			url: "xhr/xmldata.xml",
 			type: "GET",
@@ -32,6 +32,7 @@ $('#home').on('pageinit', function(){
 	});
 
 	
+	//Load JSON Data
 	$('#jsondata').on('click', function(){
 			$('#xmldiv').empty();
 			$('#profiles').empty();
@@ -54,6 +55,36 @@ $('#home').on('pageinit', function(){
 				}
 			});
 			return false;
+	});
+	
+	
+	
+	//Load CSV data without custom parser
+	$('#loadcsv').on('click', function(){
+		$('#xmldiv').empty();
+		$('<p>').html('CSV Data Loaded').appendTo('#xmldiv');
+		$.ajax({
+			url: 'xhr/csvdata.csv',
+			type: 'GET',
+			dataType: 'text',
+			success: function(answer) {
+			// splits data at new line
+				var line = answer.split('\n');
+				for (var i = 1, j = line.length; i <j; i++) {
+					var obj = line[i];
+					// splits each of the objects after the comma
+					var item = obj.split(',');
+					var itemList = $(
+						'<li>' +
+						'Name:' + item[0] + 
+						"Planet: " + item[1] + 
+						"Bio: " + item[2] +
+						'</li>'
+					).appendTo('#xmldiv');
+				}	
+			}
+		});
+		return false;
 	});
 
 });
