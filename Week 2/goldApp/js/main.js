@@ -60,7 +60,7 @@ $('#home').on('pageinit', function(){
 	//This is the getelementbyid function.  use the $ symbol to run the function
 $('#addAMate').on('pageinit', function(){
 	function saveStuff(){
-		console.log('Hi');
+		alert('Hi');
 		var mateData = $('#addMateForm');
 
 		mateData.validate({
@@ -73,6 +73,34 @@ $('#addAMate').on('pageinit', function(){
 		});
 	};
 
+	
+	function saveData(key){
+		alert("Profile Saved!");
+		//If there is no key, its' a brand new item and we create a random key
+		if(!key){
+			var id 				= Math.floor(Math.random()*10000001);
+		}else{
+			//Sets the id to existing key to override data	
+			id = key;
+		}
+		//this retrieves and gathers our form values and store in object.
+		//Object properties contain array with the form label and input values.
+		getGender();
+		var item				= {};
+		item.planet				= ["Home Planet: ", $('#homePlanet').val()];
+		item.skill				= ["Skill: ", $('#skills').val()];
+		item.name				= ["Name: ", $('#name').val()];
+		item.born				= ["Born: ", $('#born').val()];
+		item.morality			= ["Morality: ", $('#morality').val()];
+		item.character			= ["Character: ", $('#character').val()];
+		item.bio				= ["Bio: ", $('#bio').val()];
+		item.gender				= ["Gender: ", getGender ];
+		//Save data into local storage: use Stringify to convert our object to a string.
+		localStorage.setItem(id, JSON.stringify(item));
+		
+	}
+	
+	
 	var displayLink = $('#displaydata'); 
 	displayLink.on("click", getData);
 	var clearLink = $('#cleardata');
@@ -191,30 +219,7 @@ $('#addAMate').on('pageinit', function(){
 	}
 	
 	
-	function saveData(key){
-		//If there is no key, its' a brand new item and we create a random key
-		if(!key){
-			var id 				= Math.floor(Math.random()*10000001);
-		}else{
-			//Sets the id to existing key to override data	
-			id = key;
-		}
-		//this retrieves and gathers our form values and store in object.
-		//Object properties contain array with the form label and input values.
-		getGender();
-		var item				= {};
-		item.planet				= ["Home Planet: ", $('#homePlanet').val()];
-		item.skill				= ["Skill: ", $('#skills').val()];
-		item.name				= ["Name: ", $('#name').val()];
-		item.born				= ["Born: ", $('#born').val()];
-		item.morality			= ["Morality: ", $('#morality').val()];
-		item.character			= ["Character: ", $('#character').val()];
-		item.bio				= ["Bio: ", $('#bio').val()];
-		item.gender				= ["Gender: ", genderValue ];
-		//Save data into local storage: use Stringify to convert our object to a string.
-		localStorage.setItem(id, JSON.stringify(item));
-		alert("Profile Saved!");
-	}
+	
 	
 	
 	
