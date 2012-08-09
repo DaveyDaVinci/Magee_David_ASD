@@ -42,8 +42,8 @@ $('#home').on('pageinit', function(){
 				type: 'GET',
 				dataType: 'json',
 				success: function(answer){
-					for (var i=0, j=answer.item.length; i<j; i++){
-						var jdata = answer.item[i];
+					for (var i=0, j=answer.jsonProfs.length; i<j; i++){
+						var jdata = answer.jsonProfs[i];
 						$(''+
 							'<li>'+ 
 								jdata.planet +'<br />'+
