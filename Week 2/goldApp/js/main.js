@@ -91,7 +91,6 @@ $('#home').on('pageinit', function(){
 	//This is the getelementbyid function.  use the $ symbol to run the function
 $('#addAMate').on('pageinit', function(){
 	function saveStuff(){
-		alert('Hi');
 		var mateData = $('#addMateForm');
 
 		mateData.validate({
@@ -104,6 +103,10 @@ $('#addAMate').on('pageinit', function(){
 		});
 	};
 
+	// find value of the gender button
+	var getGender = function (){
+				return $('input:radio[name=gender]:checked').val();
+		};
 	
 	function saveData(key){
 		alert("Profile Saved!");
@@ -138,6 +141,12 @@ $('#addAMate').on('pageinit', function(){
 	clearLink.on("click", clearData);
 	var saveLink =  $('#savedata');
 	saveLink.on("click", saveStuff); 
+	
+	
+		
+
+
+
 
 });
 	
@@ -208,10 +217,7 @@ $('#addAMate').on('pageinit', function(){
 	
 
 	
-	// find value of the gender button
-	var getGender = function (){
-				return $('input:radio[name=gender]:checked').val();
-		};
+	
 	
 	/* This is an example of if a check boxed was checked.  Note the if and else.
 	function getGenderValue(){
@@ -229,6 +235,7 @@ $('#addAMate').on('pageinit', function(){
 	//Had to return the value as a variable to be used outside function
 	//var genderValue;
 	
+	/*
 	function toggleControls(n){
 			switch(n){
 				case "on":
@@ -248,16 +255,45 @@ $('#addAMate').on('pageinit', function(){
 					return false;
 			}
 	}
+	*/
 	
 	
 	
 	
 	
+	
+	
+
+	
+	
+	//Gets the correct image for the category being displayed.
+	/*
+	function getImage(planName, sublist){
+		var imageLi = document.createElement('li');
+		sublist.appendChild(imageLi);
+		var imageTag = document.createElement('img');
+		var setSour$ = imageTag.setAttribute("src", "img/" + planName + ".png");
+		imageLi.appendChild(imageTag);
+	
+	};
+	*/
+	
+	
+	//Autopopulate function
+	
+	function constructDefaults(){
+		//Store the JSON data into local storage so we have default data
+		for(var n in json){
+			var id 				= Math.floor(Math.random()*10000001);
+			localStorage.setItem(id, JSON.stringify(json[n]));
+		}
+	
+	}
 	
 	
 	//Get data function. Writes the data saved to the browser. 
 	function getData(){
-		toggleControls('on');
+		//toggleControls('on');
 		if(localStorage.length === 0){
 			alert("Nothing is stored in local storage. Default profiles were constructed.");
 			constructDefaults();
@@ -288,31 +324,6 @@ $('#addAMate').on('pageinit', function(){
 			createItemLinks(localStorage.key(i), linksLi); //This creates the buttons for each item in the storage.
 		}
 	};
-	
-	
-	//Gets the correct image for the category being displayed.
-	/*
-	function getImage(planName, sublist){
-		var imageLi = document.createElement('li');
-		sublist.appendChild(imageLi);
-		var imageTag = document.createElement('img');
-		var setSour$ = imageTag.setAttribute("src", "img/" + planName + ".png");
-		imageLi.appendChild(imageTag);
-	
-	};
-	*/
-	
-	
-	//Autopopulate function
-	
-	function constructDefaults(){
-		//Store the JSON data into local storage so we have default data
-		for(var n in json){
-			var id 				= Math.floor(Math.random()*10000001);
-			localStorage.setItem(id, JSON.stringify(json[n]));
-		}
-	
-	}
 	//create the edit and delete links for the displayed data
 	function createItemLinks(key, linksLi){ //this key is called from the function up above
 		var editLink = $('<a>');
