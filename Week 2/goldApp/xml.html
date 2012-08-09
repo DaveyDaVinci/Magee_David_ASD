@@ -1,0 +1,20 @@
+$('#loadxml').on('click', function(){
+		$.ajax({
+			$('#xmldiv').empty();
+			$('<h3>').html('XML Loaded').appendTo('#xmldiv');
+			type: "GET",
+			url: "xhr/data.xml",
+			dataType: "xml",
+			success: function(xml) {
+				$(xml).find('profile').each(function(){
+					var id = $(this).attr('id');
+					var name = $(this).find('name').text();
+					var bio = $(this).find('bio').text();
+					$('<div class="profViews" id="profs'+id+'"></div>')
+						.html('<div>'+name + bio+ '</div>')
+						.appendTo('#xmldiv');
+				});
+			}
+		});
+		return false;
+	});

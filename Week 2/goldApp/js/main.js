@@ -8,12 +8,89 @@ Project 2
 //test
 $('#home').on('pageinit', function(){
 
+	//Load XML data
+	$('#loadxml').on('click', function(){
+		$('#xmldiv').empty();
+		$('#profiles').empty();
+		$('<h3>').html('XML Data Loaded').appendTo('#xmldiv');
+			$.ajax({
+			url: "xhr/xmldata.xml",
+			type: "GET",
+			dataType: "xml",
+			success: function(xml) {
+				$(xml).find('profile').each(function(){
+					var id = $(this).attr('id');
+					var name = $(this).find('name').text();
+					var bio = $(this).find('bio').text();
+					$('<div class="profViews" id="profile_'+id+'"></div>')
+						.html('<div>'+name + bio + '</div>')
+						.appendTo('#xmldiv');
+				});
+			}
+		});
+		return false;
+	});
+
+	
+	//Load JSON Data
+	$('#jsondata').on('click', function(){
+			$('#xmldiv').empty();
+			$('#profiles').empty();
+			$('<h3>').html('JSON Data Loaded').appendTo('#profiles');
+			$.ajax({
+				url: 'js/json.json',
+				type: 'GET',
+				dataType: 'json',
+				success: function(answer){
+					for (var i=0, j=answer.item.length; i<j; i++){
+						var jdata = answer.item[i];
+						$(''+
+							'<li>'+ 
+								jdata.planet +'<br />'+
+								jdata.name +'<br /><br />'+
+							'</li>'
+						).appendTo('#profiles');
+						console.log(answer);
+					}
+				}
+			});
+			return false;
+	});
+	
+	
+	
+	//Load CSV data without custom parser
+	$('#loadcsv').on('click', function(){
+		$('#xmldiv').empty();
+		$('<p>').html('CSV Data Loaded').appendTo('#xmldiv');
+		$.ajax({
+			url: 'xhr/csvdata.csv',
+			type: 'GET',
+			dataType: 'text',
+			success: function(answer) {
+			// splits data at new line
+				var line = answer.split('\n');
+				for (var i = 1, j = line.length; i <j; i++) {
+					var obj = line[i];
+					// splits each of the objects after the comma
+					var item = obj.split(',');
+					var itemList = $(
+						'<li>' +
+						'Name:' + item[0] + 
+						"Planet: " + item[1] + 
+						"Bio: " + item[2] +
+						'</li>'
+					).appendTo('#xmldiv');
+				}	
+			}
+		});
+		return false;
+	});
 
 });
 	//This is the getelementbyid function.  use the $ symbol to run the function
 $('#addAMate').on('pageinit', function(){
 	function saveStuff(){
-		console.log('Hi');
 		var mateData = $('#addMateForm');
 
 		mateData.validate({
@@ -26,12 +103,50 @@ $('#addAMate').on('pageinit', function(){
 		});
 	};
 
+	// find value of the gender button
+	var getGender = function (){
+				return $('input:radio[name=gender]:checked').val();
+		};
+	
+	function saveData(key){
+		alert("Profile Saved!");
+		//If there is no key, its' a brand new item and we create a random key
+		if(!key){
+			var id 				= Math.floor(Math.random()*10000001);
+		}else{
+			//Sets the id to existing key to override data	
+			id = key;
+		}
+		//this retrieves and gathers our form values and store in object.
+		//Object properties contain array with the form label and input values.
+		getGender();
+		var item				= {};
+		item.planet				= ["Home Planet: ", $('#homePlanet').val()];
+		item.skill				= ["Skill: ", $('#skills').val()];
+		item.name				= ["Name: ", $('#name').val()];
+		item.born				= ["Born: ", $('#born').val()];
+		item.morality			= ["Morality: ", $('#morality').val()];
+		item.character			= ["Character: ", $('#character').val()];
+		item.bio				= ["Bio: ", $('#bio').val()];
+		item.gender				= ["Gender: ", getGender ];
+		//Save data into local storage: use Stringify to convert our object to a string.
+		localStorage.setItem(id, JSON.stringify(item));
+		
+	}
+	
+	
 	var displayLink = $('#displaydata'); 
 	displayLink.on("click", getData);
 	var clearLink = $('#cleardata');
 	clearLink.on("click", clearData);
 	var saveLink =  $('#savedata');
 	saveLink.on("click", saveStuff); 
+	
+	
+		
+
+
+
 
 });
 	
@@ -102,10 +217,7 @@ $('#addAMate').on('pageinit', function(){
 	
 
 	
-	// find value of the gender button
-	var getGender = function (){
-				return $('input:radio[name=gender]:checked').val();
-		};
+	
 	
 	/* This is an example of if a check boxed was checked.  Note the if and else.
 	function getGenderValue(){
@@ -123,6 +235,7 @@ $('#addAMate').on('pageinit', function(){
 	//Had to return the value as a variable to be used outside function
 	//var genderValue;
 	
+	/*
 	function toggleControls(n){
 			switch(n){
 				case "on":
@@ -142,39 +255,45 @@ $('#addAMate').on('pageinit', function(){
 					return false;
 			}
 	}
+	*/
 	
 	
-	function saveData(key){
-		//If there is no key, its' a brand new item and we create a random key
-		if(!key){
+	
+	
+	
+	
+	
+
+	
+	
+	//Gets the correct image for the category being displayed.
+	/*
+	function getImage(planName, sublist){
+		var imageLi = document.createElement('li');
+		sublist.appendChild(imageLi);
+		var imageTag = document.createElement('img');
+		var setSour$ = imageTag.setAttribute("src", "img/" + planName + ".png");
+		imageLi.appendChild(imageTag);
+	
+	};
+	*/
+	
+	
+	//Autopopulate function
+	
+	function constructDefaults(){
+		//Store the JSON data into local storage so we have default data
+		for(var n in json){
 			var id 				= Math.floor(Math.random()*10000001);
-		}else{
-			//Sets the id to existing key to override data	
-			id = key;
+			localStorage.setItem(id, JSON.stringify(json[n]));
 		}
-		//this retrieves and gathers our form values and store in object.
-		//Object properties contain array with the form label and input values.
-		getGender();
-		var item				= {};
-		item.planet				= ["Home Planet: ", $('#homePlanet').val()];
-		item.skill				= ["Skill: ", $('#skills').val()];
-		item.name				= ["Name: ", $('#name').val()];
-		item.born				= ["Born: ", $('#born').val()];
-		item.morality			= ["Morality: ", $('#morality').val()];
-		item.character			= ["Character: ", $('#character').val()];
-		item.bio				= ["Bio: ", $('#bio').val()];
-		item.gender				= ["Gender: ", genderValue ];
-		//Save data into local storage: use Stringify to convert our object to a string.
-		localStorage.setItem(id, JSON.stringify(item));
-		alert("Profile Saved!");
+	
 	}
-	
-	
 	
 	
 	//Get data function. Writes the data saved to the browser. 
 	function getData(){
-		toggleControls('on');
+		//toggleControls('on');
 		if(localStorage.length === 0){
 			alert("Nothing is stored in local storage. Default profiles were constructed.");
 			constructDefaults();
@@ -205,31 +324,6 @@ $('#addAMate').on('pageinit', function(){
 			createItemLinks(localStorage.key(i), linksLi); //This creates the buttons for each item in the storage.
 		}
 	};
-	
-	
-	//Gets the correct image for the category being displayed.
-	/*
-	function getImage(planName, sublist){
-		var imageLi = document.createElement('li');
-		sublist.appendChild(imageLi);
-		var imageTag = document.createElement('img');
-		var setSour$ = imageTag.setAttribute("src", "img/" + planName + ".png");
-		imageLi.appendChild(imageTag);
-	
-	};
-	*/
-	
-	
-	//Autopopulate function
-	
-	function constructDefaults(){
-		//Store the JSON data into local storage so we have default data
-		for(var n in json){
-			var id 				= Math.floor(Math.random()*10000001);
-			localStorage.setItem(id, JSON.stringify(json[n]));
-		}
-	
-	}
 	//create the edit and delete links for the displayed data
 	function createItemLinks(key, linksLi){ //this key is called from the function up above
 		var editLink = $('<a>');

@@ -37,6 +37,7 @@
 		<div data-role="content">
 			<p><a href="#addAMate" data-role="button" data-icon="arrow-r" data-iconpos="right" data-ajax="false" data-theme="a">Add A Mate</a></p>
 		</div>
+	<!--
 		<div data-role="content">
 			<ul data-role="listview" data-inset="true" data-filter="true" data-theme="a">
 				<li data-role="list-divider">Browse</li>
@@ -67,8 +68,35 @@
 					<h3>View Most Recent Logins</h3>
 				</a></li>
 			</ul>
+			
+			
 		</div>
-
+		-->
+	<div data-role="content">
+		
+		
+		<div id="getdata" data-role="fieldcontain">
+			<div id="get-data-buttons">
+				<div class="ui-grid-b">
+					<p style="text-align: center;">Load Test Data</p>
+					<div class="ui-block-a">
+						<a href="#" data-role="button" id="jsondata">JSON</a>
+					</div>
+					<div class="ui-block-b">
+						<a href="#" data-role="button" id="loadxml">XML</a>
+					</div>
+					<div class="ui-block-c">
+						<a href="#" data-role="button" id="loadcsv">CSV</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ul id="profiles" data-role="listview" data-theme="d"></ul>
+		<div id="xmldiv">
+		</div>
+	</div>
+		
+		
 
 		<div data-role="footer" data-theme="a" data-position="fixed" data-id="freeze">
 			<div data-role="navbar">
@@ -145,7 +173,7 @@
 			<h3>Add A Mate</h3>
 		</div>
 		<div data-role="content">
-			<form action="" method="post" id="addMateForm">
+			<form action="#" id="addMateForm">
 				
 				<div data-role="fieldcontain">
 					<input type="submit" value="Save Mate" data-theme="e" data-icon="plus" data-iconpos="right" />
@@ -175,7 +203,7 @@
 			
 				<div data-role="fieldcontain">
 					<label for="born">Date of Birth:</label>
-      				<input name="born" id="born" type="date" data-role="datebox” data-options="{'mode':'calbox'}" default value="05/05/2010" class="required date" />
+      				<input name="born" id="born" type="date" data-role="datebox” data-options="{'mode':'callbox'}" default value="05/05/2010" class="required date" />
 				 </div>
 
 				
@@ -254,13 +282,14 @@
 				
 				<div data-role="fieldcontain">
 					<input type="reset" value="Clear Data" data-theme="c" data-icon="delete" data-iconpos="right" />
-					<input type="submit" value="Save Mate" data-theme="a" data-icon="plus" data-iconpos="right" />
+					
 				</div>
 				<div>
-					<a href="#"><input type="submit" id="savedata" value="Press Me" /></a>
-					<a href="#"><input type="submit" id="cleardata" value="Clear Data" /></a>
-					<a href="#"><input type="submit" id="displaydata" value="Display Data" /></a>
-					<a href="additem.html"><input type="submit" id="newdata" value="Add New Profile" style="display:none;"/></a>
+					<input type="submit" id="savedata" value="Press Me" />
+					<input type="submit" id="cleardata" value="Clear Data" />
+					<a href="viewSavedData" id="displaydata" data-role="button" data-transition="slide">Display Data</a>
+					
+					<input type="submit" id="newdata" value="Add New Profile" style="display:none;"/>
 				</div>
 			
 			</form>
@@ -283,7 +312,61 @@
 				
 				
 				
+	<!--View data page-->			
 				
+	<div data-role="page" id="viewSavedData" data-theme="a">
+		<div data-role="header" data-position="fixed" data-theme="a" data-add-back-btn="true">
+			<center><img src="img/headlinePic2.png" alt="Sci-Fi Your Mates" width="300" /></center>
+			<center><h3>View Planets</h3></center>
+		</div>
+
+		<div data-role="content">
+			<ul data-role="listview" data-inset="true" data-filter="true">
+				<li data-role="list-divider">Planets</li>
+				<li><a href="underConstruction.html" data-icon="arrow-r" data-iconpos="right" data-ajax="false">
+					<img src="img/Pluto.png" />
+					<h3>Pluto</h3>
+				</a></li>
+				<li><a href="underConstruction.html" data-icon="arrow-r" data-iconpos="right" data-ajax="false">
+					<img src="img/Mars.png" />
+					<h3>Mars</h3>
+				</a></li>
+				<li><a href="underConstruction.html" data-icon="arrow-r" data-iconpos="right" data-ajax="false">
+					<img src="img/Earth.png" />
+					<h3>Earth</h3>
+				</a></li>
+				<li><a href="underConstruction.html" data-icon="arrow-r" data-iconpos="right" data-ajax="false">
+					<img src="img/Vegas.png" />
+					<h3>Vegas</h3>
+				</a></li>
+				<li><a href="underConstruction.html" data-icon="arrow-r" data-iconpos="right" data-ajax="false">
+					<img src="img/Velarius.png" />
+					<h3>Velarius</h3>
+				</a></li>
+				<li><a href="#viewplanets" data-icon="arrow-r" data-iconpos="right">
+					<img src="img/Heisinkr.png" />
+					<h3>Heisinkr</h3>
+				</a></li>
+				<li><a href="underConstruction.html" data-icon="arrow-r" data-iconpos="right" data-ajax="false">
+					<img src="img/Turos.png" />
+					<h3>Turos</h3>
+				</a></li>
+			</ul>
+		</div>
+
+
+		<div data-role="footer" data-theme="a" data-position="fixed" data-id="freeze">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#home" data-icon="home">Home</a></li>
+					<li><a href="#viewplanets" data-icon="search" class="ui-btn-active">View <br/>Planets</a></li>
+					<li><a href="#addAMate" data-icon="plus" >Add A Mate</a></li>
+					<li><a href="http://daveydavinci.github.com/David_Magee_MiU/Week4/bronzeApp/index.html" data-icon="arrow-r" data-ajax="false">Bronze <br/>App</a></li>
+					<li><a href="https://github.com/DaveyDaVinci/David_Magee_MiU/tree/gh-pages/Week4" data-icon="arrow-r" data-ajax="false">gh-pages</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>				
 				
 				
 				
@@ -323,5 +406,6 @@
 	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
 	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
 	<script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
+	
 </body>
 </html>
