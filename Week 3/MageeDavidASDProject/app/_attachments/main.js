@@ -87,6 +87,9 @@ $('#home').on('pageinit', function(){
 		return false;
 	});
 	
+	
+	$('#loadcouch').on('click', function(){
+	$('#profileList').empty();
 	$.ajax({
 		"url": '_view/courses',
 		"dataType": "json",
@@ -109,6 +112,8 @@ $('#home').on('pageinit', function(){
 			});
 			$('#profileList').listview('refresh');
 		}
+	});
+	return false;
 	});
 
 });
