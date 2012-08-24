@@ -8,86 +8,18 @@ Project 2
 //test
 $('#home').on('pageinit', function(){
 
-	//Load XML data
-	$('#loadxml').on('click', function(){
-		$('#xmldiv').empty();
-		$('#profiles').empty();
-		$('<h3>').html('XML Data Loaded').appendTo('#xmldiv');
-			$.ajax({
-			url: "xmldata.xml",
-			type: "GET",
-			dataType: "xml",
-			success: function(xml) {
-				$(xml).find('profile').each(function(){
-					var id = $(this).attr('id');
-					var name = $(this).find('name').text();
-					var bio = $(this).find('bio').text();
-					$('<div class="profViews" id="profile_'+id+'"></div>')
-						.html('<div>'+name + bio + '</div>')
-						.appendTo('#xmldiv');
-				});
-			}
-		});
-		return false;
+	$.couch.db("scifiyourmates").view("plugin/programs", {
+		success:function(data) {
+			console.log(data);
+		}
 	});
+	
+	
+	
 
 	
-	//Load JSON Data
-	$('#jsondata').on('click', function(){
-			$('#xmldiv').empty();
-			$('#profiles').empty();
-			$('<h3>').html('JSON Data Loaded').appendTo('#profiles');
-			$.ajax({
-				url: 'json.json',
-				type: 'GET',
-				dataType: 'json',
-				success: function(answer){
-					for (var i=0, j=answer.jsonProfs.length; i<j; i++){
-						var jdata = answer.jsonProfs[i];
-						$(''+
-							'<li>'+ 
-								jdata.planet +'<br />'+
-								jdata.name +'<br /><br />'+
-							'</li>'
-						).appendTo('#profiles');
-						console.log(answer);
-					}
-				}
-			});
-			return false;
-	});
 	
-	
-	
-	//Load CSV data without custom parser
-	$('#loadcsv').on('click', function(){
-		$('#xmldiv').empty();
-		$('<p>').html('CSV Data Loaded').appendTo('#xmldiv');
-		$.ajax({
-			url: 'csvdata.csv',
-			type: 'GET',
-			dataType: 'text',
-			success: function(answer) {
-			// splits data at new line
-				var line = answer.split('\n');
-				for (var i = 1, j = line.length; i <j; i++) {
-					var obj = line[i];
-					// splits each of the objects after the comma
-					var item = obj.split(',');
-					var itemList = $(
-						'<li>' +
-						'Name:' + item[0] + 
-						"Planet: " + item[1] + 
-						"Bio: " + item[2] +
-						'</li>'
-					).appendTo('#xmldiv');
-				}	
-			}
-		});
-		return false;
-	});
-	
-	
+	/* Old code using ajax call instead of couch plugin
 	$('#loadcouch').on('click', function(){
 	$('#profileList').empty();
 	$.ajax({
@@ -115,11 +47,98 @@ $('#home').on('pageinit', function(){
 	});
 	return false;
 	});
+	*/
+	
+	//View data
+	$.couch.db("development").view("scifiyourmates/courses", {
+		success: function(data) {
+			$('#profileList').empty();
+			$.each(data.rows, function(index, profile){
+				var bio = profile.value.bio[1];
+				var gender = profile.value.gender[1];
+				var character = profile.value.character[1];
+				var morality = profile.value.morality[1];
+				var born = profile.value.born[1];
+				var name = profile.value.name[1];
+				var skill = profile.value.skill[1];
+				var planet = profile.value.planet[1];
+				$('#profileList').append(
+					$('<li>').append(
+						$('<a>').attr("href", "data.html?data=" + name)
+							.text(name)
+					)
+				);
+			});
+			$('#profileList').listview('refresh');
+		}
+	});
+	
 
 });
+
+var urlVars = function(){
+	var urlData = $($.mobile.activePage).data("url");
+	var urlParts = urlData.split('?');
+	// urls work like this: blah?a=1&b=2&c=3, next split at the ampersand
+	var urlPairs = urlParts[1].split('&');
+	var urlValues = {};
+	for (var pair in urlPairs){
+		var keyValue = urlPairs[pair].split('=');
+		var key = decodeURIComponent(keyValue[0]);
+		var value = decodeURIComponent(keyValue[1]);
+		urlValues[key] = value;
+	}
+	return urlValues;
+}
+
+	
+//For loadedProfs page
+$('#loadedProfs').on('pageinit', function(){
+	var profileInfo = urlVars()["name"];
+	$.couch.db("development").view("scifiyourmates/courses", {
+		key: "name:" + profileInfo;
+	});
+	
+	
+});
+
+//Delete function
+function deleteCouch(){
+	 var profid = "name:" + urlVals()["name"];
+	  var doc = {
+	      _id: profid,
+	  };
+	  var ask = confirm("Delete Profile?");
+	     if(ask){
+	       $.couch.db("development").removeDoc(doc, {
+	           success: function(data) {
+	               alert(doc.name + " was successfully removed!");
+	               $('#loadedProfs').refresh;
+	          },
+	          
+	       });
+	     } else {
+	        alert("Profile Not Deleted");
+	     };
+	};
+
+
+
+
+
+
 	//This is the getelementbyid function.  use the $ symbol to run the function
 $('#addAMate').on('pageinit', function(){
-	function saveStuff(){
+	var profileName = $('#name').val
+	var doc = {
+			_id: "name:" + profileName
+	}
+	
+	
+	
+	
+	//Save data
+	function saveStuff(id, rev){
 		var mateData = $('#addMateForm');
 
 		mateData.validate({
@@ -127,17 +146,41 @@ $('#addAMate').on('pageinit', function(){
 			submitHandler: function(){
 		
 				var data = mateData.serializeArray();
-				saveData();
 			}
 		});
+		
+		if ($('#addMateForm').valid()){
+			var key;
+			var theID = "name:" + $('#name').value;
+			if (!id) {
+				key = theID;
+			} else {
+				key = id;
+			};
+			var item				= {};
+			item._id 				= key;
+			item._rev				= rev;
+			item.planet				= ["Home Planet: ", $('#homePlanet').val()];
+			item.skill				= ["Skill: ", $('#skills').val()];
+			item.name				= ["Name: ", $('#name').val()];
+			item.born				= ["Born: ", $('#born').val()];
+			item.morality			= ["Morality: ", $('#morality').val()];
+			item.character			= ["Character: ", $('#character').val()];
+			item.bio				= ["Bio: ", $('#bio').val()];
+			item.gender				= ["Gender: ", getGender ];
+			$.couch.db.saveDoc(item, {
+				success: function(data) {
+					alert('Profile has been saved!');
+					window.location="#home";
+				}
+			});	
+			
+		};
 	};
 
-	// find value of the gender button
-	var getGender = function (){
-				return $('input:radio[name=gender]:checked').val();
-		};
 	
-	function saveData(key){
+		/*
+		function saveData(key){
 		alert("Profile Saved!");
 		//If there is no key, its' a brand new item and we create a random key
 		if(!key){
@@ -162,6 +205,7 @@ $('#addAMate').on('pageinit', function(){
 		localStorage.setItem(id, JSON.stringify(item));
 		
 	}
+	*/
 	
 	
 	var displayLink = $('#displaydata'); 
